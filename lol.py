@@ -41,7 +41,7 @@ try:
         for skin in skin_info_list:
             skins.append(skin['name'])
         # 获得皮肤数量
-        skins_num = len(info_list)
+        skins_num = len(skin_info_list)
         # 获得皮肤数量后，即可拼接皮肤的url，如：安妮的皮肤url为：
         # https://game.gtimg.cn/images/lol/act/img/skin/big1000.jpg ~ https://game.gtimg.cn/images/lol/act/img/skin/big1012
         s = ''
@@ -52,10 +52,14 @@ try:
                 s = '0' + str(i)
             elif len(str(i)) == 3:
                 pass
-            # 拼接皮肤url
-            skin_url = 'https://game.gtimg.cn/images/lol/act/img/skin/big' + hero_id + '' + s + '.jpg'
-            # 访问当前皮肤url
-            im = requests.get(skin_url)
+            try:
+                # 拼接皮肤url
+                skin_url = 'https://game.gtimg.cn/images/lol/act/img/skin/big' + hero_id + '' + s + '.jpg'
+                # 访问当前皮肤url
+                im = requests.get(skin_url)
+            except:
+                # 某些英雄的炫彩皮肤没有url，所以直接终止当前url的爬取，进入下一个
+                continue
             # 保存图片
             if im.status_code == 200:
                 # 判断图片名称中是否带有'/'、'\'
@@ -65,4 +69,4 @@ try:
                 with open(skins[i] + '.jpg', 'wb') as f:
                     f.write(im.content)
 except:
-    print('网络异常')
+    print('程序异常终止')
