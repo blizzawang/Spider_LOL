@@ -1,9 +1,11 @@
 import requests
 import json
 import os
+import traceback
 from tqdm import tqdm
 
-try:
+
+def spider_lol():
     # 定义一个列表，用于存放英雄名称和对应的id
     hero_id = []
     skins = []
@@ -68,5 +70,15 @@ try:
                     skins[i] = skins[i].replace('\\', '')
                 with open(skins[i] + '.jpg', 'wb') as f:
                     f.write(im.content)
-except:
-    print('程序异常终止')
+
+
+def main():
+    try:
+        spider_lol()
+    except Exception as  e:
+        # 打印异常信息
+        print(e)
+
+
+if __name__ == '__main__':
+    main()
